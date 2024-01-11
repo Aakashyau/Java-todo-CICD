@@ -1,0 +1,16 @@
+stages:
+  - deploy
+
+deploy-job:
+    stage: deploy
+
+    before_script:
+        # create .ssh directory to store private key
+        - mkdir ~/.ssh
+        -echo "$AWS_SECRET_KEY" > ~/.ssh/id_rsa
+        -chmod 600 ~/.ssh/id_rsa
+    script:
+        -echo "welcome to our channel">> index.html
+        -scp -o ScriptHostKeyChecking=no index.html $AWS_USERNAME@$AWS_PUBLIC_IP:/var/www/html
+
+
